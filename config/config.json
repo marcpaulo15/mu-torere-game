@@ -1,0 +1,13 @@
+{
+  "player1_color": [255, 0, 0],
+  "player2_color": [0, 255, 0],
+  "counter_border_color": [0, 0, 0],
+  "counter_available_color": [0, 0, 255],
+  "screen_height": 800,
+  "screen_width": 800,
+  "board_radius": 200,
+  "counter_radius": 45,
+  "counter_border_width": 3,
+  "counter_available_width": 5,
+  "basic_sound_path": "../audio/basic_sound.wav"
+}
