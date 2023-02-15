@@ -8,7 +8,7 @@ class MuTorereSpace:
     MuTorereSpace class defines the logic behind a space in a Mu Torere board.
     There are 9 spaces in a simple board. Each player has 4 counters that
     are placed in different spaces, so at any step there is only one empty
-    space. A counter (space filled by any of the player) is available when the
+    space. A counter (space filled by any of the players) is available when the
     active player is allowed to move it to the emtpy space.
 
     MuTorereSpace Attributes:
@@ -20,7 +20,7 @@ class MuTorereSpace:
     MuTorereSpace Methods:
         - update:               updates the value of 'state' attribute
         - update_availability:  updates the value of 'is_available' attribute
-        - draw:                 displays the space on the given surface
+        - draw:                 displays the Space on the given surface
     """
 
     def __init__(self,
@@ -32,7 +32,7 @@ class MuTorereSpace:
         Inits a MuTorereSpace instance centered at a given position 'center'.
         If 'state' is 1 or 2, it means that there is a piece placed on this
         spoce. If 'state' is 0, it means that it is empty. If 'is_available',
-         the counter (filled space) can be chosen by active_player
+        the counter (filled space) can be chosen by active_player.
 
         :param center: (x,y) coordinates where the space is placed
         :param state: 0 if it's empty, 1|2 if any player's counter is placed
@@ -43,24 +43,25 @@ class MuTorereSpace:
         """
 
         # some sanity checks
-        if state not in (0, 1, 2):  # meaning: (empty, player1, player2)
+        if state not in (0, 1, 2):
             raise ValueError("wrong state value for MuTorereSpace instance")
 
-        self.center = center
-        self.state = state
-        self.is_available = is_available  # True: it can be chosen by a player
+        self.center = center  # (x,y) coordinates
+        self.state = state  # one of (0,1,2) meaning (empty, player1, player2)
+        self.is_available = is_available  # whether it can be moved
 
         # Read the configuration file
         with open(config_path, 'r') as config_file:
             config = json.load(config_file)
 
+        # Define the radius of the Space when it represents a counter (circle)
         self._radius = config['counter_radius']
         self._border_radius = self._radius + config['counter_border_width']
         self._available_radius = (
                 self._border_radius + config['counter_available_width']
         )
 
-        # Define the colours, (can be personalized through the config file)
+        # Define the colours (can be personalized through the config file)
         self._player1_colour = config["player1_color"]
         self._player2_colour = config["player2_color"]
         self._border_colour = config['counter_border_color']
@@ -98,7 +99,7 @@ class MuTorereSpace:
 
     def draw(self, screen: pygame.Surface) -> None:
         """
-        Displays the counter on the given surface. If the space is empty (state
+        Displays the counter on the given surface. If the Space is empty (state
         is zero) do nothing.
 
         :param screen: pygame surface where the space is displayed on
@@ -132,7 +133,7 @@ if __name__ == "__main__":
     pygame.display.set_caption("~ MuTorereSpace class. Demo ~")
     clock = pygame.time.Clock()
 
-    # 2) Initialize a set of random Spaces having different locations and states
+    # 2) Initialize some random Spaces having different locations and states
     random_counter_list = [
         # Two counters for player1, one available and the other unavailable
         MuTorereSpace(center=(400, 400), state=1, is_available=True),
@@ -152,7 +153,7 @@ if __name__ == "__main__":
             if event.type == pygame.QUIT:
                 done = True
 
-        screen.fill([255, 255, 255])  # fill the screen with a black background
+        screen.fill([255, 255, 255])  # fill the screen with a white background
         # Display the Space (counters) on the screen
         for counter in random_counter_list:
             counter.draw(screen)
