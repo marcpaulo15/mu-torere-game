@@ -65,7 +65,7 @@ class GameHandler:
         self._winner2_text = font.render(winner_text, True, color2)
 
         m = 10  # margin to separate the text from the screen boundaries
-        self._game_info_tl = (
+        self._game_info_tl = (  # tl means top-left corner
             self.board.tl[0],
             2*m
         )

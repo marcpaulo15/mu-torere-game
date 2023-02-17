@@ -39,7 +39,7 @@ class MuTorereSpace:
         :param is_available: whether the counter can be chosen in current turn
         :param config_path: path from where to read the configuration file
         :return: None
-        :raise ValueError: if any input argument is invalid
+        :raise ValueError: if any input value is invalid
         """
 
         # some sanity checks
@@ -126,7 +126,7 @@ class MuTorereSpace:
 
 if __name__ == "__main__":
 
-    # 1) create a pygame Surface where the Slots (counters) will be placed
+    # 1) create a pygame Surface where the Spaces (counters) will be placed
     screen_width, screen_height = 800, 800
     pygame.init()
     screen = pygame.display.set_mode((screen_width, screen_height))

@@ -45,14 +45,14 @@ class MuTorereBoard:
         self._edge_color = config['edge_color']
         self._edge_width = config['edge_width']
 
-        # Compute the location of the slots (the coordinates of their centers)
+        # Compute the location of the Spaces (the coordinates of their centers)
         # (tl_x, tl_y) define the top-left corner of bounding box of the board
         tl_x = self.central_space.x - config['board_radius']
         tl_y = self.central_space.y - config['board_radius']
         self.tl = (tl_x, tl_y)
         length = config['board_radius'] * 2
 
-        p = 0.3  # arbitrary value used to define separation between slots
+        p = 0.3  # arbitrary value used to define separation between Spaces
 
         # Compute the centers of the outer Spaces, (an eight-pointed star)
         outer_centers_list = [
@@ -78,7 +78,7 @@ class MuTorereBoard:
     def _get_neighbours(self, space: MuTorereSpace) -> List[MuTorereSpace]:
         """
         Return the neighbours of the given Space. Two Spaces are neighbours if
-        it is possible to go from one to the another in just one step.
+        it is possible to go from one to the other in just one step.
         I.e. there is and edge connecting them.
 
         :param space: MuTorereSpace instance
@@ -116,7 +116,6 @@ class MuTorereBoard:
             for space in candidates_list:  # all outer spaces are candidates
                 if space.state != active_player:
                     continue
-                # only interested in left and right neighbours, not the center.
                 state_neighbours = self._get_neighbours(space=space)
                 for neighbour in state_neighbours:
                     if neighbour.state == opponent_player:
@@ -144,7 +143,7 @@ class MuTorereBoard:
         # Make everything unavailable
         for space in self._outer_spaces_list + [self.central_space]:
             space.update_availability(is_available=False)
-        # Get the available counters based on empty_slot and active_player
+        # Get the available counters based on empty_space and active_player
         new_available_counters = self._get_available_counters(active_player)
         # Make these counters (Spaces) available for active_player
         for counter in new_available_counters:
@@ -204,12 +203,12 @@ class MuTorereBoard:
                    point1: Tuple[int, int],
                    point2: Tuple[int, int]) -> None:
         """
-        Draw a straight line from pointA to pointB. Color and width are
+        Draw a straight line from point1 to point2. Color and width are
         provided in the config file
 
         :param screen: pygame surface where the line is drawn
-        :param point1: (x,y) coordinates of pointA
-        :param point2: (x,y) coordinates of pointB
+        :param point1: (x,y) coordinates of point1
+        :param point2: (x,y) coordinates of point2
         :return: None
         """
 
@@ -243,7 +242,7 @@ class MuTorereBoard:
 
 if __name__ == "__main__":
 
-    # 1) create a pygame Surface where the Slots (counters) will be placed
+    # 1) create a pygame Surface where the Board will be placed
     screen_width, screen_height = 800, 800
     pygame.init()
     screen = pygame.display.set_mode((screen_width, screen_height))
