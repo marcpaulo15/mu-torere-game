@@ -35,7 +35,7 @@ many times as you need to fully understand how it is used.
 The following figure shows the hierarchy and dependencies
 between classes. In the next paragraphs, each module will be explained in more detail.
 
-<img src="./doc/code_structure.png" title="structure" width="500"/>
+<img src="./docs/code_structure.png" title="structure" width="500"/>
 
 * [**MuTorereSpace:**](/src/mu_torere_space.py): implements the logic behind a 
 space in a Mu Torere board. There are 9 spaces in a simple board. Each player
@@ -43,12 +43,10 @@ has 4 counters that are placed in different spaces, so at any step there is
 only one empty space.
 
 * [**MuTorereBoard**](/src/mu_torere_board.py): implements the logic behind a 
-Mu Torere Board. Allows and manages the movement of counters along the board.
-Displays the board (an eight-pointed star) and its counters (MuTorereSpace).
+Mu Torere Board. Allows and manages the movement of counters (```MuTorereSpace```) along the board.
 
 * [**GameHandler**](/src/game_handler.py): implements the logic of a Mu Torere
-Game. Process each turn and updates the state of the game. It updates the GUI
-(screen) according to the game state. Calling the 'run' method will run the game.
+Game. Process each turn and updates the state of the game. Calling the ```run``` method will run the game.
 
 * [**main.py**](/src/game_handler.py): initialize a ```GameHandler``` instance 
 and run the game.
@@ -60,10 +58,28 @@ customize their game without having to change anything in the code.
 ## Running The Game
 In the [```/src```](/src) directory there is a file named [```main.py```](/src/main.py).
 Run this file in order to play the game. Basically, it initializes a ```GameHandler``` instance
-and calls its ```run``` method. Use your mouse to right-click on the counters
-you want to move. Alternate turns with your opponent and have some fun!
+and calls its ```run``` method. Use your mouse to right-click on the available counter
+you want to move. Alternate turns with your opponent and have some fun! :)
 
 Here is an example of a game won by the blue Player:
 
 <img src="./docs/game_win.png" title="game win" width="400"/>
 
+## Customizing Your Game
+In the [```/config```](/config) directory there is the configuration file named 
+[```config.json```](/config/config.json). This file contains the parameters of the game that 
+the users (players) are allowed to customize. Remember to make sure that the values you use make sense! (for instance, that the board diameter is lower
+than the dimensions of the screen).
+
+The colors are in RGB format and the values of each component range from 0 to 255. Almost every color, text, sound, and shape can
+be personalized. For instance, have a look at this *awesome* setting.
+Feel free to try different combinations to find out which one is your favourite :)
+
+<img src="./docs/custom.png" title="custom" width="400"/>
+
+## Future Work
+Here you have some suggestions:
+* Implement a *human-vs-machine* mode.
+* Improve the *User-Interface* in order to add more functionalities and enhance the user experience.
+* Enable an easier and higher-level way to *custom* the game. 
+In other words, replace the *config.json* file with a more user-friendly approach.
