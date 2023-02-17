@@ -6,21 +6,21 @@ from typing import Tuple
 class MuTorereSpace:
     """
     MuTorereSpace class defines the logic behind a space in a Mu Torere board.
-    There are 9 spaces in a simple board. Each player has 4 counters that
-    are placed in different spaces, so at any step there is only one empty
-    space. A counter (space filled by any of the players) is available when the
-    active player is allowed to move it to the emtpy space.
+        There are 9 spaces in a simple board. Each player has 4 counters that
+        are placed in different spaces, so at any step there is only one empty
+        space. A counter (space filled by any of the players) is available when
+        the active player is allowed to move it to the emtpy space.
 
     MuTorereSpace Attributes:
-        - center:        (x,y) coordinates where the space is centered
-        - state:         0 if it's empty, 1|2 if any player's counter is placed
-        - is_available:  whether the counter can be chosen in current turn
-        - rect:          allows to detect collisions with mouse clicks
+        center         - (x,y) coordinates where the space is centered
+        state          - 0 if it's empty, 1|2 if any player's counter is placed
+        is_available   - whether the counter can be chosen in current turn
+        rect           - allows to detect collisions with mouse clicks
 
     MuTorereSpace Methods:
-        - update:               updates the value of 'state' attribute
-        - update_availability:  updates the value of 'is_available' attribute
-        - draw:                 displays the Space on the given surface
+        update                - updates the value of 'state' attribute
+        update_availability   - updates the value of 'is_available' attribute
+        draw                  - displays the Space on the given surface
     """
 
     def __init__(self,
