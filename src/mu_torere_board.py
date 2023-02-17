@@ -1,6 +1,6 @@
 import pygame
 import json
-from typing import Tuple, List
+from typing import Tuple, List, Union
 from mu_torere_space import MuTorereSpace
 
 
@@ -14,12 +14,11 @@ class MuTorereBoard:
         central_space         - space that is placed at the center of the board
         empty_space           - at each step, space that is empty
         winner                - which player has won. 0 if the game is not done
-        outer_spaces_list     - contains the outer spaces (eight-pointed star)
-        all_spaces_list       - contains all the spaces, including the center
 
     MuTorereBoard Methods:
-        move      - moves the given counter to the empty space.
-        draw      - display the board's content on the given screen.
+        move                 - moves the given counter to the empty space
+        draw                 - display the board's content on the given screen
+        process_mouse_click  - checks if mouse clicked on a legal MuTorereSpace
     """
 
     def __init__(self,
@@ -68,14 +67,11 @@ class MuTorereBoard:
         ]
 
         # Create a list with the outer spaces (eight-pointed star)
-        self.outer_spaces_list = []
+        self._outer_spaces_list = []
         for center, init_player in zip(outer_centers_list, [1]*4 + [2]*4):
-            self.outer_spaces_list.append(
+            self._outer_spaces_list.append(
                 MuTorereSpace(center=center, state=init_player)
             )
-        # Create a list with all the spaces, including the central space
-        self.all_spaces_list = self.outer_spaces_list.copy()
-        self.all_spaces_list.append(self.central_space)
         # Prepares the board to let player_starting start the game
         self._update_availability(active_player=config['player_starting'])
 
@@ -90,12 +86,12 @@ class MuTorereBoard:
         """
 
         if space == self.central_space:
-            return self.outer_spaces_list
+            return self._outer_spaces_list
         else:
-            space_idx = self.outer_spaces_list.index(space)
+            space_idx = self._outer_spaces_list.index(space)
             return [
-                self.outer_spaces_list[space_idx-1],
-                self.outer_spaces_list[(space_idx+1) % 8],
+                self._outer_spaces_list[space_idx-1],
+                self._outer_spaces_list[(space_idx+1) % 8],
                 self.central_space
             ]
 
@@ -146,7 +142,7 @@ class MuTorereBoard:
         """
 
         # Make everything unavailable
-        for space in self.all_spaces_list:
+        for space in self._outer_spaces_list + [self.central_space]:
             space.update_availability(is_available=False)
         # Get the available counters based on empty_slot and active_player
         new_available_counters = self._get_available_counters(active_player)
@@ -154,6 +150,27 @@ class MuTorereBoard:
         for counter in new_available_counters:
             counter.update_availability(is_available=True)
         return new_available_counters
+
+    def process_mouse_click(self,
+                            mouse_pos: Tuple[int, int],
+                            active_player: int,
+                            ) -> Union[MuTorereSpace, None]:
+        """
+        Returns the available space (if any) that has been selected by the
+        active player.
+
+        :param mouse_pos: (x,y) coordinates of the mouse click
+        :param active_player: which player is taking turn
+        :return: which MuTorereSpace has been selected (if any)
+        """
+
+        selected_counter = None
+        for space in self._outer_spaces_list + [self.central_space]:
+            if space.rect.collidepoint(mouse_pos):
+                if space.is_available and space.state == active_player:
+                    selected_counter = space
+                break
+        return selected_counter
 
     def move(self, counter: MuTorereSpace) -> None:
         """
@@ -214,13 +231,13 @@ class MuTorereBoard:
         board_center = self.central_space.center
         # From each space, there is a connection (line) to its adjacent spaces
         # and to the central space as well
-        for i in range(len(self.outer_spaces_list)):
-            point1 = self.outer_spaces_list[i].center
-            point2 = self.outer_spaces_list[i-1].center
+        for i in range(len(self._outer_spaces_list)):
+            point1 = self._outer_spaces_list[i].center
+            point2 = self._outer_spaces_list[i-1].center
             self._draw_edge(screen=screen, point1=point1, point2=point2)
             self._draw_edge(screen=screen, point1=point1, point2=board_center)
         # Display the spaces in the board
-        for space in self.all_spaces_list:
+        for space in self._outer_spaces_list + [self.central_space]:
             space.draw(screen)
 
 
@@ -233,9 +250,8 @@ if __name__ == "__main__":
     pygame.display.set_caption("~ MuTorereBoard class. Demo ~")
     clock = pygame.time.Clock()
 
-    # 2) Initialize a Mu Torere board and play the first turn
+    # 2) Initialize a Mu Torere board
     board = MuTorereBoard(center=(screen_width//2, screen_height//2))
-    board.move(board.outer_spaces_list[0])
 
     # 3) Set up the usual pygame flow
     done = False
