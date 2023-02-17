@@ -10,15 +10,14 @@ Run the [```/src/main.py```](/src/main.py) and give it a try! :)
 
 ## Game Rules
 Mū tōrere is a two-player board game played mainly by Māori people from 
-New Zealand's North Island. Each player has four counters. Like many other
-Māori board games, it is tightly interwoven with stories and histories.
+New Zealand's North Island. Like many other Māori board games, it is tightly interwoven with stories and histories.
 
 The board is in the form of an eight-pointed star with endpoints, called *kewai*,
 connected to the center point, or *pūtahi*. The lines connecting the *kewai* to the
-*pūtahi* are oriented at 45 degrees.
+*pūtahi* are oriented at 45 degrees. Each player controls four *counters* which are initially placed on the board 
+at the *kewai* (eight-pointed star).
 
-Each player controls four *counters* which are initially placed on the board 
-at the *kewai* (eight-pointed star). At the beginning of the game the *pūtahi* 
+At the beginning of the game the *pūtahi* 
 (center) is empty. Players *move* one of their counters per turn to an 
 empty point. Players can move only to an adjacent *kewai*, and can move to the
 *pūtahi* only when the moved counter is adjacent to an opponent's counter.
@@ -48,7 +47,7 @@ Mu Torere Board. Allows and manages the movement of counters (```MuTorereSpace``
 * [**GameHandler**](/src/game_handler.py): implements the logic of a Mu Torere
 Game. Process each turn and updates the state of the game. Calling the ```run``` method will run the game.
 
-* [**main.py**](/src/game_handler.py): initialize a ```GameHandler``` instance 
+* [**main.py**](/src/main.py): initialize a ```GameHandler``` instance 
 and run the game.
 
 * [**config:**](/config/config.json): *json* file that allows the players to 
